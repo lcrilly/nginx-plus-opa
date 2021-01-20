@@ -1,0 +1,20 @@
+    location = /_send_opa_query {
+        # Additional configuration here for authentication to the OPA daemon
+        internal;
+        proxy_http_version 1.1;
+        proxy_set_header Connection '';
+        proxy_set_header Content-Type application/json;
+        proxy_pass http://opa_server$opa_package_uri; # HTTPS in production
+    }
+
+    location = /_opa {
+        internal;
+        js_content opa.simpleQuery;
+    }
+
+    location @opa502 {
+        default_type text/plain;
+        return 502 'Error communicating with OpenPolicy Agent\n';
+    }
+
+# vim: syntax=nginx
