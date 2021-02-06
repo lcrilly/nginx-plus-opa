@@ -31,29 +31,3 @@ function buildQuery(r) {
     r.log("OPA query builder: " + JSON.stringify(query));
     return(query);
 }
-
-
-
-
-
-
-
-/*
-function buildQueryWithLoop(r) {
-    r.log("OPA $opa_config = " + r.variables.opa_config);
-    var c, q = {};
-    var kvpairs = r.variables.opa_config.split(' ');
-
-    for (var i = 0; i < kvpairs.length; i++) {
-        r.log("OPA config: " + kvpairs[i]);
-        c = kvpairs[i].split('=');
-        if (c[0].includes("path")) {
-            q[c[0]] = r.variables[c[1]].substring(1).split('/'); // Convert path segments to array
-        } else {
-            q[c[0]] = r.variables[c[1]];
-        }
-    }
-    r.log("OPA query builder: " + JSON.stringify(q));
-    return(JSON.stringify(q));
-}
-*/

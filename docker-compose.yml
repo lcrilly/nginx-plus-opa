@@ -5,17 +5,27 @@ networks:
 
 services:
   nginx_plus:
-    image: nginx-plus:latest
+    image: nginx-plus
     networks:
       - frontend
     ports:
       - "9000:9000"
       - "8080:8080"
-      - "443:443"
     volumes:
       - ./nginx_conf.d:/etc/nginx/conf.d
     depends_on:
+      - backend
       - opa
+
+  backend:
+    image: nginx-plus
+    networks:
+      - frontend
+    ports:
+      - "8081:8081"
+      - "8082:8082"
+    volumes:
+      - ./backend_apis:/etc/nginx/conf.d
 
   opa:
     image: openpolicyagent/opa:latest

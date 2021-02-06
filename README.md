@@ -23,12 +23,13 @@ NGINX Plus is configured as an API gateway for 2 different backend APIs.
 
  NGINX Plus communicates directly to an [Open Policy Agent daemon](https://www.openpolicyagent.org/docs/latest/#running-opa) on the local network.
 ```
+                                           
                                            +-----------------+
                                        +---|   Finance API   |
-                                       |   +-----------------+
-+--------+          +--------------+   |
-| Client |-----:9000|  nginx_plus  |---|   +-----------------+
-+--------+          +-------+------+   +---|  Warehouse API  |
++--------+          +--------------+   |   +-----------------+
+| Client |-----:9000|  API gateway |---|   
++--------+          +-------+------+   |   +-----------------+
+                            |          +---|  Warehouse API  |
                        :8181|              +-----------------+
                     +-------+------+                        
                     |  OPA daemon  |
@@ -44,7 +45,7 @@ docker-compose up -d
 ```
 3. Apply the finance-salaries policy to the OPA daemon
 ```shell
-curl -X PUT --data-binary @salaries.rego localhost:8181/v1/policies/example
+curl -iX PUT --data-binary @salaries.rego localhost:8181/v1/policies/example
 ```
 4. Configure NGINX Plus so that it knows how to make a policy query for salaries
 ```shell
